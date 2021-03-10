@@ -1,0 +1,229 @@
+//*********************************************************
+//*Joseph Rydel
+//* COSC 1560 Computer Programming II                    
+//* Program Name: Population Analysis.cpp
+//* Homework Number xx, Assignment 03                      
+//* Problem #: xx.x                                        
+//* Due Date: 9/23/2020                                                           
+//*********************************************************
+
+#include<iostream>
+#include<iomanip>
+#include<ctime>
+#include<cstdlib>
+#include<fstream>
+#include<string>
+using namespace std;
+
+int* getData(const int);
+int getTotal(const int*, int);
+int getAverage(const int*, int, int);
+int getMax(const int*, const int);
+void displayForward(const int*, int);
+void displayBackward(const int*, int);
+void bubbleSort(int*, int);
+
+
+int main()
+{
+	const int SIZE = 16;
+	int *ptr = new int [SIZE];
+	int total, average, max;
+
+	ptr = getData(SIZE);
+
+	cout << "The following data was read from the input file." << endl;
+	displayForward(ptr, SIZE);
+
+	cout << "\n\nDisplay forward:" << endl;
+	displayForward(ptr, SIZE);
+
+	cout << "\n\nDisplay backward: \n" << endl;
+	displayBackward(ptr, SIZE);
+
+	cout << "\n\nThe total population is: ";
+	total = getTotal(ptr, SIZE);
+	cout << total << endl;
+
+	cout << "\n\nThe average is: ";
+	average = getAverage(ptr, SIZE, total);
+	cout << average << endl;
+
+	cout << "\n\nThe maximum is: ";
+	max = getMax(ptr, SIZE);
+	cout << max << endl;
+
+	bubbleSort(ptr, SIZE);
+
+	cout << "\n\nAfter sorting, display forward:" << endl;
+	displayForward(ptr, SIZE);
+
+	cout << "\n\nAfter sorting, display backwards:\n" << endl;
+	displayBackward(ptr, SIZE);
+
+
+	delete[] ptr;
+	ptr = nullptr;
+	return 0;
+}
+
+int * getData(const int SIZE)
+{
+	ifstream pop;
+	int *ptr = nullptr;
+
+	pop.open("population.txt");
+
+	if (SIZE <= 0)
+		return nullptr;
+
+	ptr = new int[SIZE];
+
+	for (int i = 0; i < SIZE; i++)
+	{
+		pop >> ptr[i];
+		
+	}
+	pop.close();
+
+	
+	return ptr;
+	
+}
+
+int getTotal(const int * ptr, int SIZE)
+{
+	int total = 0;
+	
+	for (int i = 0; i < SIZE; i++)
+	{
+		total += *ptr;
+		ptr++;
+	}
+
+	return total;
+}
+
+int getAverage(const int * ptr, int SIZE, int tot)
+{
+	int avg;
+
+	avg = tot / SIZE;
+
+	return avg;
+}
+
+void displayForward(const int * ptr, int SIZE)
+{
+	
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (i % 4 == 0)
+		{
+			cout << endl;
+		}
+
+
+		cout << setw(10) << left << *ptr << " ";
+		ptr++;
+
+	}
+
+}
+
+int getMax(const int * ptr, int SIZE)
+{
+	int max = 0;
+
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (max < ptr[i])
+		{
+			max = ptr[i];
+		}
+	}
+	return max;
+}
+
+void displayBackward(const int * ptr, int SIZE)
+{	
+	for (int i = (SIZE - 1); i >= 0; i--)
+	{
+			cout << setw(10) << left << *(ptr + i) << " ";
+			if (i != 0 && i % 4 == 0)
+			{
+				cout << endl;
+			}
+	}
+	
+}
+
+void swap(int* ap, int* bp)
+{
+	int swa = *ap;
+	*ap = *bp;
+	*bp = swa;
+}
+
+void bubbleSort(int* ptr, int SIZE)
+{
+	int swa;
+	for (int i = (SIZE - 1); i > 0; i--)
+	{
+		for (int j = 0; j < i; j++)
+		{
+			if (ptr[j] > ptr[j + 1])
+			{
+				swa = ptr[j];
+				ptr[j] = ptr[j + 1];
+				ptr[j + 1] = swa;
+			}
+		}
+	}
+}
+
+//The following data was read from the input file.
+//
+//860090     2704598    855164     264488
+//672795     481420     446970     595047
+//298800     413651     388072     389902
+//311404     302398     280364     279789
+//
+//Display forward :
+//
+//860090     2704598    855164     264488
+//672795     481420     446970     595047
+//298800     413651     388072     389902
+//311404     302398     280364     279789
+//
+//Display backward :
+//
+//279789     280364     302398     311404
+//389902     388072     413651     298800
+//595047     446970     481420     672795
+//264488     855164     2704598    860090
+//
+//The total population is : 9544952
+//
+//
+//The average is : 596559
+//
+//
+//The maximum is : 2704598
+//
+//
+//After sorting, display forward :
+//
+//264488     279789     280364     298800
+//302398     311404     388072     389902
+//413651     446970     481420     595047
+//672795     855164     860090     2704598
+//
+//After sorting, display backwards :
+//
+//2704598    860090     855164     672795
+//595047     481420     446970     413651
+//389902     388072     311404     302398
+//298800     280364     279789     264488
+//C : \Users\Joseph Rydel\source\repos\Rydel_PopulationAnalysis\Debug\Rydel_PopulationAnalysis.exe(process 17780) exited with code 0.
+//Press any key to close this window . . .
